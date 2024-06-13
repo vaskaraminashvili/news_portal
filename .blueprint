@@ -1,2 +1,11 @@
+created:
+    - database/factories/NewsFactory.php
+    - database/factories/AuthorFactory.php
+    - database/migrations/2024_06_13_173946_create_news_table.php
+    - database/migrations/2024_06_13_173947_create_authors_table.php
+    - app/Models/News.php
+    - app/Models/Author.php
 models:
     User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
+    News: { title: 'string:400', short_description: text, description: text, publish_date: 'timestamp nullable', author_id: integer, status: string, views: integer, sort: integer }
+    Author: { name: string, surname: string, status: string, deleted_at: timestamp }

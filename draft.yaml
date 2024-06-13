@@ -1,5 +1,15 @@
 models:
-  # ...
-
-controllers:
-  # ...
+  News:
+    title: string:400
+    short_description : text
+    description : text
+    publish_date : timestamp nullable
+    author_id : integer
+    status : string
+    views : integer
+    sort : integer
+  Author:
+    name: string
+    surname : string
+    status : string
+    deleted_at : timestamp
