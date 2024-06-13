@@ -1,15 +1,31 @@
 models:
   News:
     title: string:400
-    short_description : text
-    description : text
-    publish_date : timestamp nullable
-    author_id : integer
-    status : string
-    views : integer
-    sort : integer
+    slug: String
+    short_description: text
+    description: text
+    publish_date: timestamp nullable
+    author_id: unsignedInteger nullable
+    status: string
+    views: integer nullable
+    sort: integer nullable
+    place: string nullable
+    relationships:
+      belongsTo: Author
+      belongsToMany: Category
   Author:
     name: string
-    surname : string
-    status : string
-    deleted_at : timestamp
+    surname: string
+    slug: String
+    status: string
+    deleted_at: timestamp
+  Category:
+    name: String
+    description: String
+    slug: String nullable
+    img: String
+    active: Boolean Default:1
+    parent_id: unsignedInteger nullable
+    relationships:
+      hasMany: News
+      belongsTo: Parent

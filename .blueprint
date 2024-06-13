@@ -1,11 +1,16 @@
 created:
     - database/factories/NewsFactory.php
     - database/factories/AuthorFactory.php
-    - database/migrations/2024_06_13_173946_create_news_table.php
-    - database/migrations/2024_06_13_173947_create_authors_table.php
+    - database/factories/CategoryFactory.php
+    - database/migrations/2024_06_13_180819_create_news_table.php
+    - database/migrations/2024_06_13_180820_create_authors_table.php
+    - database/migrations/2024_06_13_180821_create_categories_table.php
+    - database/migrations/2024_06_13_180822_create_category_news_table.php
     - app/Models/News.php
     - app/Models/Author.php
+    - app/Models/Category.php
 models:
     User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
-    News: { title: 'string:400', short_description: text, description: text, publish_date: 'timestamp nullable', author_id: integer, status: string, views: integer, sort: integer }
-    Author: { name: string, surname: string, status: string, deleted_at: timestamp }
+    News: { title: 'string:400', slug: String, short_description: text, description: text, publish_date: 'timestamp nullable', author_id: 'unsignedInteger nullable', status: string, views: 'integer nullable', sort: 'integer nullable', place: 'string nullable', relationships: { belongsTo: Author, belongsToMany: Category } }
+    Author: { name: string, surname: string, slug: String, status: string, deleted_at: timestamp }
+    Category: { name: String, description: String, slug: 'String nullable', img: String, active: 'Boolean Default:1', parent_id: 'unsignedInteger nullable', relationships: { hasMany: News, belongsTo: Parent } }

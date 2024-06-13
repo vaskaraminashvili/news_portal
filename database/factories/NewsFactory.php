@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\Author;
 use App\Models\News;
 
 class NewsFactory extends Factory
@@ -22,13 +23,15 @@ class NewsFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(4),
+            'slug' => $this->faker->slug(),
             'short_description' => $this->faker->text(),
             'description' => $this->faker->text(),
             'publish_date' => $this->faker->dateTime(),
-            'author_id' => $this->faker->numberBetween(-10000, 10000),
+            'author_id' => Author::factory(),
             'status' => $this->faker->word(),
             'views' => $this->faker->numberBetween(-10000, 10000),
             'sort' => $this->faker->numberBetween(-10000, 10000),
+            'place' => $this->faker->word(),
         ];
     }
 }

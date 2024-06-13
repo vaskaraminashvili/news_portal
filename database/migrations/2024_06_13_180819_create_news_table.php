@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->id();
             $table->string('title', 400);
+            $table->string('slug');
             $table->text('short_description');
             $table->text('description');
             $table->timestamp('publish_date')->nullable();
-            $table->integer('author_id');
+            $table->foreignId('author_id')->nullable();
             $table->string('status');
-            $table->integer('views');
-            $table->integer('sort');
+            $table->integer('views')->nullable();
+            $table->integer('sort')->nullable();
+            $table->string('place')->nullable();
             $table->timestamps();
         });
     }
