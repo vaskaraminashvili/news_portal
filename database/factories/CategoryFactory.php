@@ -5,7 +5,6 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Category;
-use App\Models\Parent;
 
 class CategoryFactory extends Factory
 {
@@ -25,9 +24,9 @@ class CategoryFactory extends Factory
             'name' => $this->faker->name(),
             'description' => $this->faker->text(),
             'slug' => $this->faker->slug(),
-            'img' => $this->faker->word(),
+            'img' => $this->faker->imageUrl(),
             'active' => $this->faker->boolean(),
-            'parent_id' => Parent::factory(),
+            'parent_id' => $this->faker->numberBetween(0, 10),
         ];
     }
 }

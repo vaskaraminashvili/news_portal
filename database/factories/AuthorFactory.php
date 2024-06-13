@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\AuthorStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Author;
@@ -24,7 +25,7 @@ class AuthorFactory extends Factory
             'name' => $this->faker->name(),
             'surname' => $this->faker->word(),
             'slug' => $this->faker->slug(),
-            'status' => $this->faker->word(),
+            'status' => $this->faker->randomElement(AuthorStatus::class),
             'deleted_at' => $this->faker->dateTime(),
         ];
     }

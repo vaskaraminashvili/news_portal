@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\NewsPlace;
+use App\Enums\NewsStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Author;
@@ -28,10 +30,10 @@ class NewsFactory extends Factory
             'description' => $this->faker->text(),
             'publish_date' => $this->faker->dateTime(),
             'author_id' => Author::factory(),
-            'status' => $this->faker->word(),
-            'views' => $this->faker->numberBetween(-10000, 10000),
-            'sort' => $this->faker->numberBetween(-10000, 10000),
-            'place' => $this->faker->word(),
+            'status' => $this->faker->randomElement(NewsStatus::class),
+            'views' => $this->faker->numberBetween(0, 100),
+            'sort' => $this->faker->numberBetween(1, 10),
+            'place' => $this->faker->randomElement(NewsPlace::class),
         ];
     }
 }
