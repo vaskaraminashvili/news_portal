@@ -21,33 +21,7 @@ class NewsResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(400),
-                Forms\Components\TextInput::make('slug')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('short_description')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\DateTimePicker::make('publish_date'),
-                Forms\Components\Select::make('author_id')
-                    ->relationship('author', 'name'),
-                Forms\Components\TextInput::make('status')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('views')
-                    ->numeric(),
-                Forms\Components\TextInput::make('sort')
-                    ->numeric(),
-                Forms\Components\TextInput::make('place')
-                    ->maxLength(255),
-            ]);
+        return $form->schema(News::getform());
     }
 
     public static function table(Table $table): Table
@@ -55,8 +29,6 @@ class NewsResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('publish_date')
                     ->dateTime()
@@ -71,9 +43,11 @@ class NewsResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('sort')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('place')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
