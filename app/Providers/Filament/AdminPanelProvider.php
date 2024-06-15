@@ -2,9 +2,12 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationBuilder;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -24,9 +27,12 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $user = null;
         return $panel
             ->id('admin')
             ->path('admin')
+            ->brandName('News Portal')
+            ->sidebarFullyCollapsibleOnDesktop()
             ->login()
             ->colors([
                 'primary' => Color::Indigo,
