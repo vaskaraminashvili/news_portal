@@ -9,4 +9,14 @@ enum NewsStatus : string
     case ARCHIVED = 'Archived';
     case PENDING = 'Pending';
     case REJECTED = 'Rejected';
+
+    public function getColor(): string
+    {
+        return match ($this) {
+            self::DRAFT, self::PENDING =>'warning',
+            self::PUBLISHED => 'success',
+            self::ARCHIVED => 'info',
+            self::REJECTED => 'danger',
+        };
+    }
 }

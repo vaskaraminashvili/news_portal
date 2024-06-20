@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\NewsStatus;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -17,6 +18,7 @@ class News extends Model
 
     protected $casts = [
         'id' => 'integer',
+        'status' => NewsStatus::class,
         'publish_date' => 'timestamp',
         'author_id' => 'integer',
     ];
@@ -50,6 +52,18 @@ class News extends Model
                 ->maxLength(255),
         ];
 
+    }
+
+    public function publish() :void
+    {
+        $this->status = NewsStatus::PUBLISHED;
+        $this->save();
+    }
+
+    public function reject() :void
+    {
+       $this->status = NewsStatus::REJECTED;
+       $this->save();
     }
 
     public function author(): BelongsTo
