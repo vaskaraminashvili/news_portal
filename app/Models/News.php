@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Enums\NewsStatus;
+use Carbon\Carbon;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -54,17 +56,28 @@ class News extends Model
 
     }
 
-    public function publish() :void
+    public function publish(): void
     {
         $this->status = NewsStatus::PUBLISHED;
         $this->save();
     }
 
-    public function reject() :void
+    public function reject(): void
     {
-       $this->status = NewsStatus::REJECTED;
-       $this->save();
+        $this->status = NewsStatus::REJECTED;
+        $this->save();
     }
+
+//    Scopes
+    public function scopeTabsCondition(Builder $query): void
+    {
+        $query->where([
+            ['status', NewsStatus::PUBLISHED],
+            ['created_at' > Carbon::now()->subMonth()]
+        ]);
+    }
+
+//    Relations
 
     public function author(): BelongsTo
     {

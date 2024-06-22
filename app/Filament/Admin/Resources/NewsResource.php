@@ -37,18 +37,24 @@ class NewsResource extends Resource
             })
             ->columns([
                 Tables\Columns\TextColumn::make('title')
+                    ->limit(20)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('publish_date')
                     ->since()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('author.name')
-                    ->numeric()
+                    ->limit(15)
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->badge()
+                Tables\Columns\SelectColumn::make('status')
+                    ->options(NewsStatus::class)
+//                    ->badge()
+                    ->selectablePlaceholder(false)
                     ->alignCenter()
-                    ->color(function ($state) {
-                        return $state->getColor();
+//                    ->color(function ($state) {
+//                        return $state->getColor();
+//                    })
+                    ->afterStateUpdated(function () {
+                            Notification::make()->success()->title('Status Updated')->send();
                     })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('views')
