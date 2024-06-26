@@ -54,7 +54,7 @@ class NewsResource extends Resource
 //                        return $state->getColor();
 //                    })
                     ->afterStateUpdated(function () {
-                            Notification::make()->success()->title('Status Updated')->send();
+                        Notification::make()->success()->title('Status Updated')->send();
                     })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('views')
@@ -121,8 +121,10 @@ class NewsResource extends Resource
                             Notification::make()->duration(500)->danger()->title('News was rejected!')->send();
                         })
                 ])
-                    ->button()
-                    ->label('Actions'),
+//                ->button()
+//                ->color('success')
+//                ->label('Actions')
+                ,
 
             ])
             ->bulkActions([
