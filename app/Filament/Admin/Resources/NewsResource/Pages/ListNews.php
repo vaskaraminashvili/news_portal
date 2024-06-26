@@ -19,26 +19,24 @@ class ListNews extends ListRecords
     {
         return [
             'all' => Tab::make('All News'),
-            'published' => Tab::make('Last Month Published')
+            'published' => Tab::make('Published News')
                 ->badge(
-                    News::query()->where([
-                        ['status', NewsStatus::PUBLISHED],
-//                        ['created_at' > Carbon::now()->subMonth()]
-                    ])
+                    News::query()->where('status', NewsStatus::PUBLISHED)
                         ->count())
                 ->badgeColor('success')
                 ->modifyQueryUsing(function (Builder $query) {
-                    return $query->where([
-                        ['status', NewsStatus::PUBLISHED],
-                        ['created_at' > Carbon::now()->subMonth()]
-                    ]);
+                    return $query
+                        ->where('status', NewsStatus::PUBLISHED)
+                        ->orderBy('publish_date', 'desc');
                 }),
-            'pending' => Tab::make('Last Month Pending')
+            'pending' => Tab::make('Pending News')
                 ->badge(News::query()
                     ->where('status', NewsStatus::PENDING)->count())
                 ->badgeColor('warning')
                 ->modifyQueryUsing(function ($query) {
-                    $query->where('status', NewsStatus::PENDING)->where('created_at' > Carbon::now()->subMonth());
+                    $query
+                        ->where('status', NewsStatus::PENDING)
+                        ->orderBy('publish_date', 'desc');
                 })
         ];
 
