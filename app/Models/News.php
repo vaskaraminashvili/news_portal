@@ -13,10 +13,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class News extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSlug;
 
     protected $casts = [
         'id' => 'integer',
@@ -25,15 +28,35 @@ class News extends Model
         'author_id' => 'integer',
     ];
 
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug');
+    }
+
+
+    public function publish(): void
+    {
+        $this->status = NewsStatus::PUBLISHED;
+        $this->save();
+    }
+
+    public function reject(): void
+    {
+        $this->status = NewsStatus::REJECTED;
+        $this->save();
+    }
+
     public static function getForm(): array
     {
         return [
             TextInput::make('title')
                 ->required()
                 ->maxLength(400),
-            TextInput::make('slug')
-                ->required()
-                ->maxLength(255),
+//            TextInput::make('slug')
+//                ->required()
+//                ->maxLength(255),
             Textarea::make('short_description')
                 ->required()
                 ->columnSpanFull(),
@@ -54,18 +77,6 @@ class News extends Model
                 ->maxLength(255),
         ];
 
-    }
-
-    public function publish(): void
-    {
-        $this->status = NewsStatus::PUBLISHED;
-        $this->save();
-    }
-
-    public function reject(): void
-    {
-        $this->status = NewsStatus::REJECTED;
-        $this->save();
     }
 
 //    Scopes
