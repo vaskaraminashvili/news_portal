@@ -43,6 +43,9 @@ class NewsResource extends Resource
                     ->since()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('author.name')
+                    ->formatStateUsing(function ($record) {
+                        return $record->author->initials;
+                    })
                     ->limit(15)
                     ->sortable(),
                 Tables\Columns\SelectColumn::make('status')

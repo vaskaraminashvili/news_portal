@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\NewsPlace;
 use App\Enums\NewsStatus;
 use Carbon\Carbon;
 use Filament\Forms\Components\DateTimePicker;
@@ -54,10 +55,11 @@ class News extends Model
             Section::make()
                 ->columns(2)
                 ->schema([
-                    Select::make('Category')
+                    Select::make('category_id')
                         ->searchable()
                         ->preload()
                         ->relationship('categories', 'name')
+                        ->multiple()
                         ->required()
                         ->columnSpanFull(),
                     TextInput::make('title')
@@ -73,7 +75,8 @@ class News extends Model
                     TextInput::make('slug')
                         ->hiddenOn('create')
                         ->required()
-                        ->columnSpanFull(),
+                        ->columnSpanFull()
+                        ->readOnly(),
                 ]),
             Section::make()
                 ->schema([
@@ -98,9 +101,11 @@ class News extends Model
                         ->options(NewsStatus::class)
                         ->required(),
                     TextInput::make('sort')
+                        ->minValue(1)
+                        ->step(1)
                         ->numeric(),
-                    TextInput::make('place')
-                        ->maxLength(255),
+                    Select::make('place')
+                        ->options(NewsPlace::class),
 
                 ])
         ];
