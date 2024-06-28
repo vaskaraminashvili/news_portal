@@ -5,7 +5,10 @@ namespace App\Models;
 use App\Enums\NewsPlace;
 use App\Enums\NewsStatus;
 use Carbon\Carbon;
+use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -107,7 +110,30 @@ class News extends Model
                     Select::make('place')
                         ->options(NewsPlace::class),
 
-                ])
+                ]),
+
+            Actions::make(actions: [
+                Action::make('star')
+                    ->label('Fill with factory')
+                    ->icon('heroicon-m-star')
+                    ->visible(function (string $operation){
+                        if ($operation !== 'create'){
+                            return false;
+                        }
+                        if (!app()->environment('local')){
+                            return false;
+                        }
+
+                        return true;
+                    })
+//                    ->requiresConfirmation()
+                    ->action(function ($livewire) {
+                        $data = News::factory()->has(Category::factory()->has(Category::factory())->count(1))->make()->toArray();
+                        $data['category_id'] = [rand(1, 30)];
+                        $livewire->form->fill($data);
+                    }),
+            ]),
+
         ];
 
     }

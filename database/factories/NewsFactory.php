@@ -28,7 +28,7 @@ class NewsFactory extends Factory
             'slug' => $this->faker->slug(),
             'short_description' => $this->faker->text(),
             'description' => $this->faker->text(),
-            'publish_date' => $this->faker->dateTimeBetween('-1 years', 'now'),
+            'publish_date' => $this->faker->dateTimeBetween('-1 months', 'now'),
             'author_id' => Author::factory(),
             'status' => $this->faker->randomElement(NewsStatus::class),
             'views' => $this->faker->numberBetween(0, 100),
