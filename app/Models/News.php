@@ -54,6 +54,12 @@ class News extends Model
             Section::make()
                 ->columns(2)
                 ->schema([
+                    Select::make('Category')
+                        ->searchable()
+                        ->preload()
+                        ->relationship('categories', 'name')
+                        ->required()
+                        ->columnSpanFull(),
                     TextInput::make('title')
                         ->required()
                         ->maxLength(400),
@@ -62,7 +68,8 @@ class News extends Model
                         ->default(now())
                         ->native(false)
                         ->minDate(now())
-                        ->firstDayOfWeek(1),
+                        ->firstDayOfWeek(1)
+                        ->required(),
                     TextInput::make('slug')
                         ->hiddenOn('create')
                         ->required()
@@ -83,10 +90,13 @@ class News extends Model
                 ->schema([
                     Select::make('author_id')
                         ->relationship('author', 'name')
-                        ->required(),
-                    TextInput::make('status')
                         ->required()
-                        ->maxLength(255),
+                        ->searchable()
+                        ->preload()
+                        ->required(),
+                    Select::make('status')
+                        ->options(NewsStatus::class)
+                        ->required(),
                     TextInput::make('sort')
                         ->numeric(),
                     TextInput::make('place')
