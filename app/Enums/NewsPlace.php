@@ -2,10 +2,20 @@
 
 namespace App\Enums;
 
-enum NewsPlace: string
+enum NewsPlace: int
 {
-    case DEFAULT = 'default';
-    case BANNER = 'Banner';
-    case TOP = 'Top';
-    case HOT = 'Hot';
+    case DEFAULT = 1;
+    case BANNER = 2;
+    case TOP = 3;
+    case HOT = 4;
+
+        public function label(): string
+    {
+        return match($this) {
+            self::DEFAULT => 'Default',
+            self::BANNER => 'Banner',
+            self::TOP => 'Top',
+            self::HOT => 'Hot',
+        };
+    }
 }

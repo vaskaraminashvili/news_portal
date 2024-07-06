@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Enums\NewsPlace;
+use App\Models\NewsPlace;
+use App\Enums\NewsPlace as NewsPlaceEnum;
 use App\Enums\NewsStatus;
 use Carbon\Carbon;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -108,7 +108,7 @@ class News extends Model
                         ->step(1)
                         ->numeric(),
                     Select::make('place')
-                        ->options(NewsPlace::class),
+                        ->options(NewsPlaceEnum::class),
 
                 ]),
 
@@ -157,5 +157,25 @@ class News extends Model
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function places()
+    {
+        return $this->hasMany(NewsPlace::class);
+    }
+
+    public function addPlace($place)
+    {
+        return $this->places()->create(['place_id' => $place]);
+    }
+
+    public function removePlace($place)
+    {
+        return $this->places()->where('place_id', $place)->delete();
+    }
+
+    public function hasPlace($place)
+    {
+        return $this->places()->where('place_id', $place)->exists();
     }
 }

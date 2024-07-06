@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources;
 
+use App\Enums\NewsPlace;
 use App\Enums\NewsStatus;
 use App\Filament\Admin\Resources\NewsResource\Pages;
 use App\Filament\Admin\Resources\NewsResource\RelationManagers;
@@ -24,6 +25,7 @@ class NewsResource extends Resource
 
     public static function form(Form $form): Form
     {
+//        dd($form->getRecord()->places[0]->place_id->name);
         return $form->schema(News::getform());
     }
 
