@@ -21,6 +21,7 @@ class NewsResource extends Resource
 
     public static function form(Form $form): Form
     {
+//        dd($form->getRecord());
         return $form->schema(News::getform());
     }
 
