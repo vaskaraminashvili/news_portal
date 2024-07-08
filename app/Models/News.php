@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Enums\NewsPlace;
-use App\Enums\NewsStatus;
+use App\Enums\News\NewsLayout;
+use App\Enums\News\NewsPlace;
+use App\Enums\News\NewsStatus;
 use Carbon\Carbon;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Wallo\FilamentSelectify\Components\ButtonGroup;
 
 class News extends Model
 {
@@ -28,6 +29,7 @@ class News extends Model
     protected $casts = [
         'id' => 'integer',
         'status' => NewsStatus::class,
+        'layout' => NewsLayout::class,
         'publish_date' => 'timestamp',
         'author_id' => 'integer',
     ];
@@ -109,6 +111,15 @@ class News extends Model
                         ->numeric(),
                     Select::make('place')
                         ->options(NewsPlace::class),
+                    ButtonGroup::make('layout')
+                        ->options(NewsLayout::class)
+                        ->onColor('primary')
+                        ->offColor('gray')
+                        ->gridDirection('row')
+                        ->default(NewsLayout::DEFAULT)
+                        ->columnSpanFull()
+                        ->icons(NewsLayout::icons())
+
 
                 ]),
 

@@ -2,10 +2,9 @@
 
 namespace App\Filament\Admin\Resources\NewsResource\Pages;
 
-use App\Enums\NewsStatus;
+use App\Enums\News\NewsStatus;
 use App\Filament\Admin\Resources\NewsResource;
 use App\Models\News;
-use Carbon\Carbon;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;

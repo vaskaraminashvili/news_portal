@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('views')->nullable();
             $table->integer('sort')->nullable();
             $table->string('place')->nullable();
+            $table->string('layout')->nullable();
             $table->timestamps();
         });
     }
