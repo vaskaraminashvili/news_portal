@@ -8,7 +8,7 @@ use App\Enums\News\NewsStatus;
 use Carbon\Carbon;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\DateTimePicker;
+use Coolsam\FilamentFlatpickr\Forms\Components\Flatpickr;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -30,7 +30,7 @@ class News extends Model
         'id' => 'integer',
         'status' => NewsStatus::class,
         'layout' => NewsLayout::class,
-        'publish_date' => 'timestamp',
+//        'publish_date' => 'timestamp',
         'author_id' => 'integer',
     ];
 
@@ -70,12 +70,11 @@ class News extends Model
                     TextInput::make('title')
                         ->required()
                         ->maxLength(400),
-                    DateTimePicker::make('publish_date')
-                        ->seconds(false)
-                        ->default(now())
-                        ->native(false)
+                    Flatpickr::make('publish_date')
+                        ->dateFormat('Y-m-d H:i')
                         ->minDate(now())
-                        ->firstDayOfWeek(1)
+                        ->enableTime()
+                        ->label('Publish Date')
                         ->required(),
                     TextInput::make('slug')
                         ->hiddenOn('create')
@@ -127,11 +126,11 @@ class News extends Model
                 Action::make('star')
                     ->label('Fill with factory')
                     ->icon('heroicon-m-star')
-                    ->visible(function (string $operation){
-                        if ($operation !== 'create'){
+                    ->visible(function (string $operation) {
+                        if ($operation !== 'create') {
                             return false;
                         }
-                        if (!app()->environment('local')){
+                        if (!app()->environment('local')) {
                             return false;
                         }
 
