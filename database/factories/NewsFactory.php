@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Enums\NewsPlace;
-use App\Enums\NewsStatus;
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use App\Enums\News\NewsLayout;
+use App\Enums\News\NewsPlace;
+use App\Enums\News\NewsStatus;
 use App\Models\Author;
 use App\Models\News;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class NewsFactory extends Factory
 {
@@ -28,12 +28,13 @@ class NewsFactory extends Factory
             'slug' => $this->faker->slug(),
             'short_description' => $this->faker->text(),
             'description' => $this->faker->text(),
-            'publish_date' => $this->faker->dateTime(),
+            'publish_date' => $this->faker->dateTimeBetween('-1 months', 'now'),
             'author_id' => Author::factory(),
             'status' => $this->faker->randomElement(NewsStatus::class),
             'views' => $this->faker->numberBetween(0, 100),
             'sort' => $this->faker->numberBetween(1, 10),
             'place' => $this->faker->randomElement(NewsPlace::class),
+            'layout' => $this->faker->randomElement(NewsLayout::class),
         ];
     }
 }
